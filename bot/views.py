@@ -23,10 +23,7 @@ class LineBotViewSet(ViewSet):
         signature = request.META.get('HTTP_X_LINE_SIGNATURE')
         # get request body as text
         body = request.body.decode('utf-8')
-        try:
-            handler.handle(body, signature)
-        except Exception as e:
-            print(str(e))
+        handler.handle(body, signature)
 
         return HttpResponse()
 
