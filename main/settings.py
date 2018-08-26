@@ -130,7 +130,7 @@ REDIS_URL = ''
 
 IS_HEROKU = os.environ.get('IS_HEROKU', False)
 if IS_HEROKU:
-    # DEBUG = False
+    DEBUG = False
     PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
     import dj_database_url
