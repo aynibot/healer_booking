@@ -61,14 +61,14 @@ class TimeSlotRepo(object):
         return result
 
     def get_by_id(self, slot_id):
-        return TimeSlot.objects.get(id=slot_id)
+        return TimeSlot.objects.filter(id=slot_id).first()
 
 class ReservationRepo(object):
     def create(self, member_id, time_slot_id, customer_name=''):
         return Reservation.objects.create(member_id=member_id, time_slot_id=time_slot_id, customer_name=customer_name)
 
     def get_by_id(self, id):
-        return Reservation.objects.get(id=id)
+        return Reservation.objects.filter(id=id).first()
 
     def get_by_member_id(self, member_id):
         return Reservation.objects.filter(member_id=member_id)

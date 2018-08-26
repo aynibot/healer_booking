@@ -43,5 +43,12 @@ class ReservationService(object):
         member = member_service.get_by_line_id(line_id)
         return reservation_repo.get_by_member_id(member.id).order_by('-id').first()
 
+    def get_by_line_id(self, line_id):
+        member = member_service.get_by_line_id(line_id)
+        return reservation_repo.get_by_member_id(member.id)
+
+    def get_reservation_by_id(self, id):
+        return reservation_repo.get_by_id(id)
+
 time_slot_service = TimeSlotService()
 reservation_service = ReservationService()

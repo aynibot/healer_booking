@@ -7,7 +7,7 @@ from linebot import WebhookHandler
 from linebot.models import (
     MessageEvent, TextMessage, PostbackEvent, FollowEvent,
     TextSendMessage,TemplateSendMessage, ButtonsTemplate,
-    URIAction, PostbackAction,
+    URIAction, PostbackAction, MessageAction
 )
 from .utils import push_templates
 from .signals import text_signal, postback_signal
@@ -38,8 +38,11 @@ class LineBotViewSet(ViewSet):
         greeting_text = greeting_text.format(name=member.name)
         templates.append( TextSendMessage(text=greeting_text) )
 
-        test_text = '測試指令\n#可預約時段查詢\n#我預約的時段\n'
-        templates.append(TextSendMessage(text=test_text))
+        actions = []
+        actions.append( MessageAction(label='可預約時段查詢', text='#可預約時段查詢') )
+        actions.append( MessageAction(label='我預約的時段', text='#我預約的時段') )
+        btn = ButtonsTemplate(text='測試指令', actions=actions)
+        templates.append(TemplateSendMessage(alt_text='測試指令', template=btn))
 
         push_templates( line_id, templates )
 
