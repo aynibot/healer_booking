@@ -6,7 +6,7 @@ from .views import CronViewSet
 
 router = DefaultRouter()
 
-router.register(r'line', CronViewSet, base_name='line')
+router.register(r'cron', CronViewSet, base_name='cron')
 
 urlpatterns = [
 	url(r'^api/', include(router.urls)),
