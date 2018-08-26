@@ -25,6 +25,4 @@ class CronViewSet(ViewSet):
             thrd = threading.Thread(target=reservation_service.notify_healers, kwargs=kwargs)
             thrd.start()
 
-        time_slot_service.check_time_slot()
-        reservation_service.notify_healers('2018-08-28')
         return HttpResponse()

@@ -71,13 +71,13 @@ class ReservationService(object):
                 report[hour] = []
 
             healer = member_info[reservation.member_id]
-            report[hour].append( '\t{healer} 的個案 {customer}'.format(healer=healer.name, customer=reservation.customer_name) )
+            report[hour].append( '    {healer} 的個案 {customer}'.format(healer=healer.name, customer=reservation.customer_name) )
 
         report_text = ''
         for begin, info in report.items():
-            text = '{begin}:00 ~ {end}:00'.format(begin=begin, end=begin+1)
+            text = '{begin}:00 ~ {end}:00\n'.format(begin=begin, end=begin+1)
             text += '\n'.join(info)
-            text += '\n'
+            report_text += (text + '\n')
 
         multicast_templates(admin_line_ids, TextSendMessage(report_text))
 
