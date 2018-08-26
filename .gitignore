@@ -86,3 +86,6 @@ tramp
 
 newenv
 
+# Django stuff:
+*.log
+local_settings.py

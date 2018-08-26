@@ -130,7 +130,7 @@ REDIS_URL = ''
 
 IS_HEROKU = os.environ.get('IS_HEROKU', False)
 if IS_HEROKU:
-    DEBUG = False
+    # DEBUG = False
     PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
     import dj_database_url
@@ -156,6 +156,10 @@ CACHES = {
             'max_connections': 20,
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
-        "KEY_PREFIX": "cresclab"
+        "KEY_PREFIX": "ayni"
     }
 }
+try:
+    from .local_settings import *
+except ImportError:
+    pass
