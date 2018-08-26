@@ -60,9 +60,12 @@ class TimeSlotRepo(object):
 
         return result
 
+    def get_by_id(self, slot_id):
+        return TimeSlot.objects.get(id=slot_id)
+
 class ReservationRepo(object):
-    def create(self, member_id, time_slot_id):
-        return Reservation.objects.create(member_id=member_id, time_slot_id=time_slot_id)
+    def create(self, member_id, time_slot_id, customer_name=''):
+        return Reservation.objects.create(member_id=member_id, time_slot_id=time_slot_id, customer_name=customer_name)
 
     def get_by_id(self, id):
         return Reservation.objects.get(id=id)
@@ -73,6 +76,9 @@ class ReservationRepo(object):
     def get_by_date(self, date_str):
         time_slot_ids = TimeSlot.objects.filter( date=date_str ).values_list('id', flat=True)
         return Reservation.objects.filter( time_slot_id__in=time_slot_ids )
+
+    def get_slot_counts(self, slot_id):
+        return Reservation.objects.filter(time_slot_id=slot_id).count()
 
 time_slot_repo = TimeSlotRepo()
 reservation_repo = ReservationRepo()

@@ -28,7 +28,7 @@ class TimeSlot(models.Model):
 class Reservation(Basis):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
     time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
-    customer_name = models.CharField( max_length=32, default=None, null=True, blank=True )
+    customer_name = models.CharField( max_length=128, default=None, null=True, blank=True )
 
     def __str__(self):
         return '{healer} 預約 {customer} 在 {time}'.format( healer=self.member, customer=self.customer_name, time=self.time_slot )
