@@ -39,7 +39,7 @@ class TimeSlotRepo(object):
         TimeSlot.objects.bulk_create(new_rows)
 
     def get_booking_days(self, start_dt, end_dt):
-        return TimeSlot.objects.filter(date__range=(start_dt, end_dt,)).order_by('date')
+        return TimeSlot.objects.filter(date__range=(start_dt, end_dt,)).distinct('date').order_by('date')
 
     def get_booking_slots(self, date_str):
         time_slots = TimeSlot.objects.filter(date=date_str).order_by('hour')

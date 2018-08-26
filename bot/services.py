@@ -8,6 +8,6 @@ class MemberService(object):
             return
 
         member.save()
-
+        return member
 
 member_service = MemberService()

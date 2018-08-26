@@ -19,5 +19,7 @@ class TimeSlotService(object):
 
         return time_slot_repo.get_booking_days(start_dt, end_dt)
 
+    def get_booking_slots(self, date_str):
+        return time_slot_repo.get_booking_slots(date_str)
 
 time_slot_service = TimeSlotService()
