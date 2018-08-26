@@ -14,6 +14,10 @@ class MemberRepo(object):
 
         return member
 
+    def get_by_ids(self, member_ids):
+        return Member.objects.filter(id__in=member_ids)
 
+    def get_admins(self):
+        return Member.objects.filter(is_admin=True)
 
 member_repo = MemberRepo()

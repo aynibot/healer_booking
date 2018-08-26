@@ -27,3 +27,10 @@ def get_bot_token():
 def push_templates(line_id, templates):
     line_bot_api = get_bot_api()
     line_bot_api.push_message(line_id, templates)
+
+def multicast_templates(line_ids, templates):
+    line_bot_api = get_bot_api()
+
+    groups = [ line_ids[i:i+150] for i in range(0, len(line_ids), 150) ]
+    for group in groups:
+        line_bot_api.multicast(group, templates)

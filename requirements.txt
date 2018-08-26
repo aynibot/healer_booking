@@ -9,3 +9,4 @@ line-bot-sdk==1.7.2
 django-redis==4.9.0
 redis==2.10.6
 python-dateutil==2.7.3
+apscheduler==3.5.3

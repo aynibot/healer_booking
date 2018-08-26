@@ -1,4 +1,6 @@
+from linebot.models import TextSendMessage
 from bot.services import member_service
+from bot.utils import multicast_templates
 from .repos import time_slot_repo, reservation_repo
 from pytz import timezone
 from datetime import datetime
@@ -49,6 +51,35 @@ class ReservationService(object):
 
     def get_reservation_by_id(self, id):
         return reservation_repo.get_by_id(id)
+
+    def notify_healers(self, date_str):
+        # send to healer
+        reservations = reservation_repo.get_by_date(date_str)
+
+        member_ids = reservations.values_list('member_id', flat=True)
+        members = member_service.get_by_member_ids(member_ids)
+        healers_line_ids = members.values_list('line_id', flat=True)
+        multicast_templates(healers_line_ids, TextSendMessage('別忘了關心個案喔！\n我們明天見^_^~'))
+
+        # send to admin
+        member_info = { member.id:member for member in members }
+        report = {}
+        admin_line_ids = member_service.get_admins().values_list('line_id', flat=True)
+        for reservation in reservations:
+            hour = reservation.time_slot.hour
+            if hour not in report:
+                report[hour] = []
+
+            healer = member_info[reservation.member_id]
+            report[hour].append( '\t{healer} 的個案 {customer}'.format(healer=healer.name, customer=reservation.customer_name) )
+
+        report_text = ''
+        for begin, info in report.items():
+            text = '{begin}:00 ~ {end}:00'.format(begin=begin, end=begin+1)
+            text += '\n'.join(info)
+            text += '\n'
+
+        multicast_templates(admin_line_ids, TextSendMessage(report_text))
 
 time_slot_service = TimeSlotService()
 reservation_service = ReservationService()

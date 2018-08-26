@@ -10,4 +10,10 @@ class MemberService(object):
         member.save()
         return member
 
+    def get_by_member_ids(self, member_ids):
+        return member_repo.get_by_ids(member_ids)
+
+    def get_admins(self):
+        return member_repo.get_admins()
+
 member_service = MemberService()
