@@ -1,7 +1,7 @@
 from linebot.models import TextSendMessage
 
 from bot.signals import text_signal, postback_signal
-from bot.utils import push_templates
+from bot.utils import push_templates, multicast_templates
 from .apis import (
     push_booking_days, push_booking_slot, push_booking_confirm, push_my_reservation,
     cancel_booking,
@@ -27,7 +27,7 @@ def recieve_text(line_id, text, **kwargs):
         admins = member_service.get_admins()
         admin_line_ids = [member.line_id for member in admins]
         text = '新增了一筆預約\n\n{reservation}'.format(reservation=reservation)
-        push_templates(admin_line_ids, TextSendMessage(text=text))
+        multicast_templates(admin_line_ids, TextSendMessage(text=text))
         return
 
 def receive_postback(line_id, postback_data, **kwargs):
@@ -48,7 +48,7 @@ def receive_postback(line_id, postback_data, **kwargs):
             admins = member_service.get_admins()
             admin_line_ids = [member.line_id for member in admins]
             text = '取消了一筆預約\n\n{reservation}'.format(reservation=reservation)
-            push_templates(admin_line_ids, TextSendMessage(text=text))
+            multicast_templates(admin_line_ids, TextSendMessage(text=text))
 
 text_signal.connect( recieve_text )
 postback_signal.connect( receive_postback )
