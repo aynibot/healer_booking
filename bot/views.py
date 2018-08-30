@@ -34,16 +34,10 @@ class LineBotViewSet(ViewSet):
         member = member_service.get_by_line_id(line_id)
 
         templates = []
-        # greeting_text = '療癒師 {name} 你好\n我是協助療癒師為個案預約時段的機器人\n電腦可以沒有人權但是蕭維玲必須有！\n各項功能都可以透過下方選單操作喔'
         greeting_text = '療癒師 {name} 您好！\n我是協助您為個案預約時段的機器人\n\n請透過下方選單操作預約喔！\n【預約個案】時段後( )內數字是剩餘名額，一時段最多2人\n【查詢時段】會顯示您已預約成功的記錄\n\n有任何疑問請洽工作人員，這裡無法提供解答喔\udbc0\udc8a'
         greeting_text = greeting_text.format(name=member.name)
         templates.append( TextSendMessage(text=greeting_text) )
 
-        # actions = []
-        # actions.append( MessageAction(label='可預約時段查詢', text='#可預約時段查詢') )
-        # actions.append( MessageAction(label='我預約的時段', text='#我預約的時段') )
-        # btn = ButtonsTemplate(text='測試指令', actions=actions)
-        # templates.append(TemplateSendMessage(alt_text='測試指令', template=btn))
 
         push_templates( line_id, templates )
 

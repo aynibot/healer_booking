@@ -22,6 +22,12 @@ def recieve_text(line_id, text, **kwargs):
         reservation.customer_name = text
         reservation.save()
         push_templates(line_id, TextSendMessage(text='完成囉！我們到時見^_^~'))
+
+        from bot.services import member_service
+        admins = member_service.get_admins()
+        admin_line_ids = [member.line_id for member in admins]
+        text = '新增了一筆預約\n\n{reservation}'.format(reservation=reservation)
+        push_templates(admin_line_ids, TextSendMessage(text=text))
         return
 
 def receive_postback(line_id, postback_data, **kwargs):
@@ -36,7 +42,13 @@ def receive_postback(line_id, postback_data, **kwargs):
         push_booking_confirm(line_id, *args)
 
     elif type == 'CANCEL':
-        cancel_booking(line_id, *args)
+        reservation = cancel_booking(line_id, *args)
+        if reservation:
+            from bot.services import member_service
+            admins = member_service.get_admins()
+            admin_line_ids = [member.line_id for member in admins]
+            text = '取消了一筆預約\n\n{reservation}'.format(reservation=reservation)
+            push_templates(admin_line_ids, TextSendMessage(text=text))
 
 text_signal.connect( recieve_text )
 postback_signal.connect( receive_postback )

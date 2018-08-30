@@ -101,3 +101,4 @@ def cancel_booking(line_id, reservation_id):
         reservation.delete()
 
     push_my_reservation(line_id)
+    return reservation
