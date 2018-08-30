@@ -59,7 +59,7 @@ class ReservationService(object):
         member_ids = reservations.values_list('member_id', flat=True)
         members = member_service.get_by_member_ids(member_ids)
         healers_line_ids = members.values_list('line_id', flat=True)
-        multicast_templates(healers_line_ids, TextSendMessage('別忘了關心個案喔！\n我們明天見^_^~'))
+        multicast_templates(healers_line_ids, TextSendMessage('別忘了提醒個案明天準時到哦！療癒師請提前半小時靜心、場佈！\n\n我們明天見^_^~'))
 
         # send to admin
         member_info = { member.id:member for member in members }

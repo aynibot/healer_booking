@@ -38,11 +38,11 @@ class LineBotViewSet(ViewSet):
         greeting_text = greeting_text.format(name=member.name)
         templates.append( TextSendMessage(text=greeting_text) )
 
-        actions = []
-        actions.append( MessageAction(label='可預約時段查詢', text='#可預約時段查詢') )
-        actions.append( MessageAction(label='我預約的時段', text='#我預約的時段') )
-        btn = ButtonsTemplate(text='測試指令', actions=actions)
-        templates.append(TemplateSendMessage(alt_text='測試指令', template=btn))
+        # actions = []
+        # actions.append( MessageAction(label='可預約時段查詢', text='#可預約時段查詢') )
+        # actions.append( MessageAction(label='我預約的時段', text='#我預約的時段') )
+        # btn = ButtonsTemplate(text='測試指令', actions=actions)
+        # templates.append(TemplateSendMessage(alt_text='測試指令', template=btn))
 
         push_templates( line_id, templates )
 
