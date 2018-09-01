@@ -7,6 +7,7 @@ from linebot.models import (
     TemplateSendMessage, CarouselTemplate, CarouselColumn, PostbackAction, TextSendMessage,
 )
 
+WEEKDAY = ('星期一','星期二','星期三','星期四','星期五','星期六','星期天',)
 PREFIX = 'BOOK'
 def build_postback_data(data):
     postback_data = '{prefix}_{data}'.format(prefix=PREFIX, data=data.upper())
@@ -23,7 +24,9 @@ def push_booking_days(line_id):
         actions = []
         for slot in group:
             if slot:
-                label = slot.date
+                year, month, day = slot.date.split('-')
+                dt = datetime.strptime(slot.date, '%Y-%m-%d').replace(tzinfo=timezone('Asia/Taipei'))
+                label = '{month}-{day} {weekday}'.format(month=month, day=day, weekday=WEEKDAY[dt.weekday()])
                 data = 'DATE#{}'.format(slot.date)
                 actions.append( PostbackAction(label=label, data=build_postback_data(data)) )
             else:
